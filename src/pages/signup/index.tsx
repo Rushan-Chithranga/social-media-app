@@ -13,25 +13,24 @@ import image1 from "@/assets/images/image1.jpg";
 import image2 from "@/assets/images/image2.jpg";
 import image3 from "@/assets/images/image3.jpg";
 import image4 from "@/assets/images/image4.jpg";
-import { UserLogIn } from "@/types";
+import { UserSignIn } from "@/types";
 import { Label } from "@radix-ui/react-label";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "@/context/userAuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
-const initialValue: UserLogIn = {
+const initialValues: UserSignIn = {
   email: "",
   password: "",
+  confirmPassword: "",
 };
 
-interface ILoginProps {}
+interface ISignupProps {}
 
-const Login: React.FunctionComponent<ILoginProps> = (props) => {
-  const { googleSignIn, logIn } = useUserAuth();
+const Signup: React.FunctionComponent<ISignupProps> = (props) => {
+  const { googleSignIn, signUp } = useUserAuth();
   const navigate = useNavigate();
-  const [userLogInInfo, setuserLogInInfo] =
-    React.useState<UserLogIn>(initialValue);
-
+  const [userInfo, setUserInfo] = React.useState<UserSignIn>(initialValues);
   const handleGoogleSignIn = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     try {
@@ -41,12 +40,11 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
       console.log("Error : ", error);
     }
   };
-
   const handleSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log("The user info is : ", userLogInInfo);
-      await logIn(userLogInInfo.email, userLogInInfo.password);
+      console.log("The user info is : ", userInfo);
+      await signUp(userInfo.email, userInfo.password);
       navigate("/");
     } catch (error) {
       console.log("Error : ", error);
@@ -110,12 +108,9 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
                       id="email"
                       type="email"
                       placeholder="dipesh@example.com"
-                      value={userLogInInfo.email}
+                      value={userInfo.email}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setuserLogInInfo({
-                          ...userLogInInfo,
-                          email: e.target.value,
-                        })
+                        setUserInfo({ ...userInfo, email: e.target.value })
                       }
                     />
                   </div>
@@ -125,11 +120,23 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
                       id="password"
                       type="password"
                       placeholder="Password"
-                      value={userLogInInfo.password}
+                      value={userInfo.password}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setuserLogInInfo({
-                          ...userLogInInfo,
-                          password: e.target.value,
+                        setUserInfo({ ...userInfo, password: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="confirmpassword">Confirm password</Label>
+                    <Input
+                      id="confirmpassword"
+                      type="password"
+                      placeholder="Confirm password"
+                      value={userInfo.confirmPassword}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setUserInfo({
+                          ...userInfo,
+                          confirmPassword: e.target.value,
                         })
                       }
                     />
@@ -137,10 +144,10 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
                 </CardContent>
                 <CardFooter className="flex flex-col">
                   <Button className="w-full" type="submit">
-                    Login
+                    Sign Up
                   </Button>
                   <p className="mt-3 text-sm text-center">
-                    Don't have an account ? <Link to="/signup">Sign up</Link>
+                    Already have an account ? <Link to="/login">Login</Link>
                   </p>
                 </CardFooter>
               </form>
@@ -152,4 +159,4 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
   );
 };
 
-export default Login;
+export default Signup;

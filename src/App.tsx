@@ -1,16 +1,16 @@
-import './App.css'
-import { Button } from './components/ui/button'
+import * as React from "react";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes";
+import { UserAuthProvider } from "./context/userAuthContext";
 
-function App() {
+interface IAppProps {}
 
+const App: React.FunctionComponent<IAppProps> = () => {
   return (
-    <>
-      <div>
-        <Button className='bg-red-600'> back</Button>
-      </div>
-      
-    </>
-  )
-}
+    <UserAuthProvider>
+      <RouterProvider router={router} />
+    </UserAuthProvider>
+  );
+};
 
-export default App
+export default App;
