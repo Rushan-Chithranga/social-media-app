@@ -6,15 +6,16 @@ import { useUserAuth } from "@/context/userAuthContext";
 import { createPost } from "@/repository/post.service";
 import { FileEntry, PhotoMeta, Post } from "@/types";
 import { Label } from "@radix-ui/react-label";
+import { getAuth } from "firebase/auth";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ICreatePostProps {}
 
 const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
-
   const navigate = useNavigate();
-  const { user } = useUserAuth();
+  const auth = getAuth();
+  const user = auth.currentUser;
   const [fileEntry, setFileEntry] = React.useState<FileEntry>({
     files: [],
   });
@@ -29,8 +30,6 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Uploaded File Entry : ", fileEntry.files);
-    console.log("The create post is : ", post);
     const photoMeta: PhotoMeta[] = fileEntry.files.map((file) => {
       return {
         cdnUrl: file.cdnUrl || "",
@@ -43,7 +42,6 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
         userId: user?.uid || null,
         photos: photoMeta,
       };
-      console.log("The final posy is  : ", newPost);
       await createPost(newPost);
       navigate("/");
     } else {
@@ -52,7 +50,7 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
   };
   return (
     <Layout>
-       <div className="flex justify-center">
+      <div className="flex justify-center">
         <div className="border max-w-3xl w-full">
           <h3 className="bg-slate-800 text-white text-center text-lg p-2">
             Create Post
