@@ -14,8 +14,7 @@ interface ICreatePostProps {}
 
 const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
   const navigate = useNavigate();
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const { user } = useUserAuth();
   const [fileEntry, setFileEntry] = React.useState<FileEntry>({
     files: [],
   });
