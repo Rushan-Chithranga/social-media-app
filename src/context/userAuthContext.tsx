@@ -64,7 +64,7 @@ export const UserAuthProvider: React.FunctionComponent<
     });
   });
   const value: AuthContextData = {
-    user: null,
+    user,
     logIn,
     signUp,
     logOut,
