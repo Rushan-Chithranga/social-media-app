@@ -2,13 +2,12 @@ import Layout from "@/components/layout";
 import { useUserAuth } from "@/context/userAuthContext";
 import { getPostByUserId } from "@/repository/post.service";
 import { DocumentResponse, Post } from "@/types";
-import { getAuth } from "firebase/auth";
 import { HeartIcon } from "lucide-react";
 import * as React from "react";
 
 interface IMyPhotosProps {}
 
-const MyPhotos: React.FunctionComponent<IMyPhotosProps> = (props) => {
+const MyPhotos: React.FunctionComponent<IMyPhotosProps> = () => {
   const { user } = useUserAuth();
   const [data, setData] = React.useState<DocumentResponse[]>([]);
   const getAllPost = async (id: string) => {

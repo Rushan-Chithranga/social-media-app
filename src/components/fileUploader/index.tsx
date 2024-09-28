@@ -27,10 +27,11 @@ const FileUploader: React.FunctionComponent<IFileUploaderProps> = ({
   );
 
   useEffect(() => {
-    const handleUploadEvent = (e: CustomEvent<OutputFileEntry[]>) => {
-      if (e.detail) {
+    const handleUploadEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<OutputFileEntry[]>;
+      if (customEvent.detail) {
         console.log("The uploaded file event is ; ", e);
-        setUploadedFiles([...e.detail]);
+        setUploadedFiles([...customEvent.detail]);
       }
     };
     ctxProviderRef.current?.addEventListener("data-output", handleUploadEvent);
