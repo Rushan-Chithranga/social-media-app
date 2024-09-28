@@ -26,7 +26,7 @@ const initialValue: UserLogIn = {
 
 interface ILoginProps {}
 
-const Login: React.FunctionComponent<ILoginProps> = (props) => {
+const Login: React.FunctionComponent<ILoginProps> = () => {
   const { googleSignIn, logIn } = useUserAuth();
   const navigate = useNavigate();
   const [userLogInInfo, setuserLogInInfo] =
